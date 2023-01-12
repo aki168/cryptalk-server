@@ -20,6 +20,15 @@ const jwt = require('jsonwebtoken')
 const { promistfy } = require('util')
 const Pusher = require("pusher");
 
+const moment = require("moment")
+
+moment.locale('zh-TW'); // default the locale to English
+
+const numeral = require("numeral")
+
+const todayTimestamp = moment().startOf('day').format('x')
+const todayTimestampN = numeral(todayTimestamp).value()
+
 const pusher = new Pusher({
   appId: process.env.APP_ID,
   key: process.env.KEY,
@@ -47,7 +56,11 @@ app.get('/', (req, res) => {
 
 app.get('/MsgHistory', async (req, res) => {
   let collection = client.db("cryptalk").collection("messages")
-  await collection.find().toArray()
+  await collection.find({
+    $and:[
+      { time: { $gt : todayTimestampN } }
+    ]
+  }).toArray()
     .then(result => {
       res.json(result)
     }).catch(err => {
