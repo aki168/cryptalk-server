@@ -1,5 +1,11 @@
 {
   "version": 2,
+  "env": {
+    "APP_ID": "1536770",
+    "KEY": "1d293125e55c6e08c85f",
+    "SECRET": "0267a6a9074891f8ff32",
+    "CLUSTER": "ap3"
+  },
   "builds": [
     {
       "src": "app.js",
